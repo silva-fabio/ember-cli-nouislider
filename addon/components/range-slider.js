@@ -9,7 +9,7 @@ import Ember from 'ember';
 import noUiSlider from 'noUiSlider';
 
 const {
-  Logger: { warn }
+  Logger
 } = Ember;
 
 export default Component.extend({
@@ -83,7 +83,7 @@ export default Component.extend({
     try {
       slider = noUiSlider.create(element, properties, true);
     } catch (err) {
-      warn(`[ember-cli-nouislider]: ${err}`);
+      Logger.warn(`[ember-cli-nouislider]: ${err}`);
     }
 
     this.slider = slider;
