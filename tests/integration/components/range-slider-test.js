@@ -9,7 +9,7 @@ module('Integration | Component | range-slider', function(hooks) {
   test('it renders', async function(assert) {
     assert.expect(1);
 
-    await render(hbs`{{range-slider start=20}}`);
+    await render(hbs`<RangeSlider @start=20/>`);
 
     assert.dom('.noUi-base', this.element).exists();
   });
