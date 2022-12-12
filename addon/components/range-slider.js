@@ -9,7 +9,7 @@ import Ember from 'ember';
 import noUiSlider from 'noUiSlider';
 
 const {
-  Logger: { warn }
+  Logger
 } = Ember;
 
 export default Component.extend({
@@ -83,7 +83,7 @@ export default Component.extend({
     try {
       slider = noUiSlider.create(element, properties, true);
     } catch (err) {
-      warn(`[ember-cli-nouislider]: ${err}`);
+      Logger.warn(`[ember-cli-nouislider]: ${err}`);
     }
 
     this.slider = slider;
@@ -96,7 +96,6 @@ export default Component.extend({
           run(this, function() {
             const val = this.get('slider').get();
             const action = this.get(eventActionName);
-
             if (typeof(action) === 'string') {
               // Note that `sendAction` is deprecated and this will trigger a deprecation message.
               this.sendAction(eventActionName, val);
@@ -113,7 +112,13 @@ export default Component.extend({
         this.onStart();
         if (!isEmpty(this.get(`on-start`))) {
           let val = this.get("slider").get();
-          this.sendAction(`on-start`, val);
+          const action = this.get('on-start');
+
+          if (typeof(action) === 'string') {
+            this.sendAction('on-start', val);
+          } else if (typeof(action) === 'function') {
+            action(val);
+          }
         }
       });
     });
@@ -123,7 +128,13 @@ export default Component.extend({
         this.onEnd();
         if (!isEmpty(this.get(`on-end`))) {
           let val = this.get("slider").get();
-          this.sendAction(`on-end`, val);
+          const action = this.get('on-end');
+
+          if (typeof(action) === 'string') {
+            this.sendAction('on-end', val);
+          } else if (typeof(action) === 'function') {
+            action(val);
+          }
         }
       });
     });
